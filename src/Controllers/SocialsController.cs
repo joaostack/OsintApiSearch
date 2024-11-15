@@ -10,18 +10,21 @@ namespace OsintApiSearch.Controllers
         private readonly INetShoesService _netshoesService;
         private readonly IXwitterService _xwitterService;
         private readonly ISpotifyService _spotifyService;
+        private readonly IChessService _chessService;
 
         public SocialsController(
             IPicsartService picsartService,
             INetShoesService netshoesService,
             IXwitterService xwitterService,
-            ISpotifyService spotifyService
+            ISpotifyService spotifyService,
+            IChessService chessService
         )
         {
             _picsartService = picsartService;
             _netshoesService = netshoesService;
             _xwitterService = xwitterService;
             _spotifyService = spotifyService;
+            _chessService = chessService;
         }
 
         [HttpGet("picsart")]
@@ -72,6 +75,20 @@ namespace OsintApiSearch.Controllers
             try
             {
                 var exists = await _spotifyService.MailExistsAsync(email);
+                return Ok(new { exists });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("chess")]
+        public async Task<IActionResult> ChessCheck(string email)
+        {
+            try
+            {
+                var exists = await _chessService.MailExistsAsync(email);
                 return Ok(new { exists });
             }
             catch (Exception ex)
