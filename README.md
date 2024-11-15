@@ -10,3 +10,6 @@
     <li>NetShoes</li>
   </ul>
 </blockquote>
+
+# Sample
+![Screenshot 2024-11-15 152440](https://github.com/user-attachments/assets/db31146b-ac49-4427-b320-5b063bfc1214)
