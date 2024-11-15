@@ -24,7 +24,7 @@ namespace OsintApiSearch
             var content = await response.Content.ReadAsStringAsync();
             var json = JsonSerializer.Deserialize<Duolingo.Root>(content);
 
-            if (json.users == null)
+            if (json.users.Count == 0)
             {
                 return false;
             }
