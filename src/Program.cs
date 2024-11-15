@@ -38,6 +38,13 @@ builder.Services.AddHttpClient<ISpotifyService, SpotifyService>(client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+// Chess
+builder.Services.AddHttpClient<ISpotifyService, SpotifyService>(client =>
+{
+    client.BaseAddress = new Uri("https://www.chess.com/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
