@@ -96,5 +96,30 @@ namespace OsintApiSearch.Controllers
                 return StatusCode(500, $"Error: {ex.Message}");
             }
         }
+
+        [HttpGet("checkAll")]
+        public async Task<IActionResult> CheckAll(string email)
+        {
+            try
+            {
+                var chessExists = await _chessService.MailExistsAsync(email);
+                var xwitterExists = await _xwitterService.MailExistsAsync(email);
+                var picsartExists = await _picsartService.MailExistsAsync(email);
+                var netshoesExists = await _netshoesService.MailExistsAsync(email);
+                var spotifyExists = await _spotifyService.MailExistsAsync(email);
+
+                var exists = new Dictionary<string, bool>()
+                {
+                    { "Chess", chessExists },
+                    { "Xwitter", xwitterExists },
+                };
+
+                return Ok(new { exists });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
     }
 }
