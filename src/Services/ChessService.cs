@@ -24,7 +24,7 @@ namespace OsintApiSearch
             var content = await response.Content.ReadAsByteArrayAsync();
             var json = JsonSerializer.Deserialize<Chess.Root>(content);
 
-            if (json.isEmailAvailable == false)
+            if (json.isEmailAvailable == true)
             {
                 return false;
             }
