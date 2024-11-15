@@ -111,8 +111,16 @@ namespace OsintApiSearch.Controllers
                 var exists = new Dictionary<string, bool>()
                 {
                     { "Chess", chessExists },
+                    { "Picsart", picsartExists },
                     { "Xwitter", xwitterExists },
+                    { "Spotify", spotifyExists },
+                    { "Netshoes", netshoesExists },
                 };
+
+                if (exists == null)
+                {
+                    return NotFound("Not results found");
+                }
 
                 return Ok(new { exists });
             }
