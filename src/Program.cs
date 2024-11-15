@@ -45,6 +45,13 @@ builder.Services.AddHttpClient<IChessService, ChessService>(client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+// Duolingo
+builder.Services.AddHttpClient<IDuoService, DuoService>(client =>
+{
+    client.BaseAddress = new Uri("https://www.duolingo.com/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

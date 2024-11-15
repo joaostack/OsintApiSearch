@@ -11,13 +11,15 @@ namespace OsintApiSearch.Controllers
         private readonly IXwitterService _xwitterService;
         private readonly ISpotifyService _spotifyService;
         private readonly IChessService _chessService;
+        private readonly IDuoService _duoService;
 
         public SocialsController(
             IPicsartService picsartService,
             INetShoesService netshoesService,
             IXwitterService xwitterService,
             ISpotifyService spotifyService,
-            IChessService chessService
+            IChessService chessService,
+            IDuoService duoService
         )
         {
             _picsartService = picsartService;
@@ -25,6 +27,7 @@ namespace OsintApiSearch.Controllers
             _xwitterService = xwitterService;
             _spotifyService = spotifyService;
             _chessService = chessService;
+            _duoService = duoService;
         }
 
         [HttpGet("picsart")]
@@ -97,6 +100,20 @@ namespace OsintApiSearch.Controllers
             }
         }
 
+        [HttpGet("duolingo")]
+        public async Task<IActionResult> DuoCheck(string email)
+        {
+            try
+            {
+                var exists = await _duoService.MailExistsAsync(email);
+                return Ok(new { exists });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
         [HttpGet("checkAll")]
         public async Task<IActionResult> CheckAll(string email)
         {
@@ -107,6 +124,7 @@ namespace OsintApiSearch.Controllers
                 var picsartExists = await _picsartService.MailExistsAsync(email);
                 var netshoesExists = await _netshoesService.MailExistsAsync(email);
                 var spotifyExists = await _spotifyService.MailExistsAsync(email);
+                var duoExists = await _duoService.MailExistsAsync(email);
 
                 var exists = new Dictionary<string, bool>()
                 {
@@ -115,6 +133,7 @@ namespace OsintApiSearch.Controllers
                     { "Xwitter", xwitterExists },
                     { "Spotify", spotifyExists },
                     { "Netshoes", netshoesExists },
+                    { "Duolingo", duoExists },
                 };
 
                 if (exists == null)
