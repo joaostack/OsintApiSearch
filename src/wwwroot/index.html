@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <title>Osint Search</title>
+</head>
+<body data-bs-theme="dark">
+    <div class="container">
+        <h1 class="text-center">Osint Search &#x1F575;&#xFE0F;</h1>
+        <form id="form1" method="POST">
+            <label class="form-label" for="target">Target: </label>
+            <div class="mb-3 input-group">
+                <input type="email" class="form-control" id="target" name="target" placeholder="Mail" />
+                <input type="submit" class="btn btn-primary" name="scan" value="Scan" />
+            </div>
+        </form>
+
+        <div class="bg-black p-2" style="color: #00ff00;" id="output">No logs...</div>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        var form1 = document.getElementById("form1");
+        var target = document.getElementById("target");
+        var output = document.getElementById("output");
+
+        form1.onsubmit = (event) => {
+            event.preventDefault();
+            if (target.value.trim() !== "") {
+                output.innerHTML = "Scanning...";
+                searchApi();
+            } else {
+                output.innerHTML = "No valid value!";
+            }
+        };
+
+        function searchApi() {
+            fetch(`/Socials/checkAll?email=${target.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    let result = '';
+                    if (data.exists) {
+                        Object.entries(data.exists).forEach(([platform, isRegistered]) => {
+                            result += `<b>${platform}:</b> ${isRegistered ? 'Registered &#x2714;&#xFE0F;' : 'Not Registered &#x274C;'}<br>`;
+                        });
+                    } else {
+                        result = "No data found.";
+                    }
+
+                    output.innerHTML = result;
+                })
+                .catch(error => {
+                    output.innerHTML = "Error: " + error;
+                });
+        }
+    </script>
+</body>
+</html>

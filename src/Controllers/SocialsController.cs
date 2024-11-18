@@ -119,22 +119,61 @@ namespace OsintApiSearch.Controllers
         {
             try
             {
-                var chessExists = await _chessService.MailExistsAsync(email);
-                var xwitterExists = await _xwitterService.MailExistsAsync(email);
-                var picsartExists = await _picsartService.MailExistsAsync(email);
-                var netshoesExists = await _netshoesService.MailExistsAsync(email);
-                var spotifyExists = await _spotifyService.MailExistsAsync(email);
-                var duoExists = await _duoService.MailExistsAsync(email);
+                var exists = new Dictionary<string, bool>();
 
-                var exists = new Dictionary<string, bool>()
+                try
                 {
-                    { "Chess", chessExists },
-                    { "Picsart", picsartExists },
-                    { "Xwitter", xwitterExists },
-                    { "Spotify", spotifyExists },
-                    { "Netshoes", netshoesExists },
-                    { "Duolingo", duoExists },
-                };
+                    exists["Chess"] = await _chessService.MailExistsAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking Chess: {ex.Message}");
+                }
+
+                try
+                {
+                    exists["Picsart"] = await _picsartService.MailExistsAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking Picsart: {ex.Message}");
+                }
+
+                try
+                {
+                    exists["Xwitter"] = await _xwitterService.MailExistsAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking Xwitter: {ex.Message}");
+                }
+
+                try
+                {
+                    exists["Spotify"] = await _spotifyService.MailExistsAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking Spotify: {ex.Message}");
+                }
+
+                try
+                {
+                    exists["Netshoes"] = await _netshoesService.MailExistsAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking Netshoes: {ex.Message}");
+                }
+
+                try
+                {
+                    exists["Duolingo"] = await _duoService.MailExistsAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error checking Duolingo: {ex.Message}");
+                }
 
                 if (exists == null)
                 {

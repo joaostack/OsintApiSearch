@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using OsintApiSearch;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,7 +53,16 @@ builder.Services.AddHttpClient<IDuoService, DuoService>(client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+
 var app = builder.Build();
+app.UseAuthorization();
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
+    RequestPath = "/Home"
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
