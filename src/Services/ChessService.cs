@@ -13,7 +13,7 @@ namespace OsintApiSearch
 
         public async Task<bool> MailExistsAsync(string email)
         {
-            var url = $"callback/email/available?email={email}";
+            var url = $"https://www.chess.com/callback/email/available?email={email}";
             var response = await _httpClient.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)

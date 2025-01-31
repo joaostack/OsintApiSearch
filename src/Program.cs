@@ -55,14 +55,8 @@ builder.Services.AddHttpClient<IDuoService, DuoService>(client =>
 
 
 var app = builder.Build();
-app.UseAuthorization();
+app.UseDefaultFiles();
 app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "wwwroot")),
-    RequestPath = "/Home"
-});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
